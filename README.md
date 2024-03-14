@@ -1,17 +1,105 @@
-# UDCA-Net: Unsupervised Training of a Dynamic Context-Aware Deep Denoising Framework for Low-dose Fluoroscopic Imaging
+# <p align=center> `Unsupervised Training of a Dynamic Context-Aware Deep Denoising Framework for Low-Dose Fluoroscopic Imaging` </p> # 
+[![UDCA-Net](https://img.shields.io/badge/%E2%98%81-UDCANet-gray?logoColor=gray&labelColor=%23C5A3BE
+)](https://github.com/sunyoungIT/UDCA-Net.git) 
+#### :rocket: <u style="color: hotpink; text-decoration: underline dotted hotpink;">This repository contains the PyTorch implementation of a **Two-step unsupervised dynamic context-aware denoising framework based on the recursive filter** for Low-Dose fluoroscopic imaging.
 
-This repository contains the PyTorch implementation of a **Two-step unsupervised dynamic context-aware denoising framework based on the recursive filter** for Low-Dose fluoroscopic imaging.
-
-The code is an implementation of the algorithm proposed in the paper, and _it will be uploaded once the paper is accepted._
+- The code is an implementation of the algorithm proposed in the paper, and _it will be uploaded once the paper is accepted._
 
 ## Results
+<table style="width: 3000px">
+  <tr>
+    <td align="center" style="font-size:18px; border: none;">Low-dose</td>
+    <td align="center" style="font-size:18px; border: none;">BM3D</td>
+    <td align="center" style="font-size:18px; border: none;">NLM</td>
+    <td align="center" style="font-size:18px; border: none;">N2N</td>
+    <td align="center" style="font-size:18px; border: none;">N2V</td>
+    <td align="center" style="font-size:18px; border: none;">N2C</td>
+    <td align="center" style="font-size:18px; border: none;">Ours</td>
+    
+  </tr>
+  <tr>
+    <td valign="top" style="border: none;"><img src="https://github.com/sunyoungIT/UDCA-Net/assets/51948046/77134d6f-ed40-478c-bdcb-1dbb3ae6bb7d" width="100" heigh="100"></td>
+    <td valign="top" style="border: none;"><img src="https://github.com/sunyoungIT/UDCA-Net/assets/51948046/3ed1a340-5e8e-477a-8161-ebbbccfa694f" width="100" heigh="100"></td>
+    <td valign="top" style="border: none;"><img src="https://github.com/sunyoungIT/UDCA-Net/assets/51948046/3a234240-4e4e-44a5-a310-04bb221a7385" width="100" heigh="100"></td>
+    <td valign="top" style="border: none;"><img src="https://github.com/sunyoungIT/UDCA-Net/assets/51948046/1e06b859-215b-49cd-8ac9-4edb965ba847" width="100" heigh="100"></td>
+    <td valign="top" style="border: none;"><img src="https://github.com/sunyoungIT/UDCA-Net/assets/51948046/2994f535-a394-4524-8994-47f4436f50a4" width="100" heigh="100"></td>
+    <td valign="top" style="border: none;"><img src="https://github.com/sunyoungIT/UDCA-Net/assets/51948046/de48213c-ad51-40c7-a41b-0f9b4733983c" width="100" heigh="100"></td>
+    <td valign="top" style="border: none;"><img src="https://github.com/sunyoungIT/UDCA-Net/assets/51948046/464183c7-1b26-4fef-bb24-65e40987b79a" width="100" heigh="100"></td>
+  </tr>
+  <tr>
+    <td align="center" style="font-size:18px; border: none;">WGAN-VGG</td>
+    <td align="center" style="font-size:18px; border: none;">DnCNN</td>
+    <td align="center" style="font-size:18px; border: none;">MCDnCNN</td>
+    <td align="center" style="font-size:18px; border: none;">UDDN</td>
+    <td align="center" style="font-size:18px; border: none;">EEDN</td>
+    <td align="center" style="font-size:18px; border: none;">FastDVDNet</td>
+    <td align="center" style="font-size:18px; border: none;">High-dose</td>
+    
+  </tr>
+  <tr>
+    <td valign="top" style="border: none;"><img src="https://github.com/sunyoungIT/UDCA-Net/assets/51948046/3c25c022-cc9b-454f-8f30-700501b78002" width="100" heigh="100"></td>
+    <td valign="top" style="border: none;"><img src="https://github.com/sunyoungIT/UDCA-Net/assets/51948046/10a6509a-f59b-4f8c-8509-636137507c7a" width="100" heigh="100"></td>
+    <td valign="top" style="border: none;"><img src="https://github.com/sunyoungIT/UDCA-Net/assets/51948046/76efc170-79b4-4b07-8eb0-dcbe0371f136" width="100" heigh="100"></td>
+    <td valign="top" style="border: none;"><img src="https://github.com/sunyoungIT/UDCA-Net/assets/51948046/06879307-987a-4b43-848d-3168335092bd" width="100" heigh="100"></td>
+    <td valign="top" style="border: none;"><img src="https://github.com/sunyoungIT/UDCA-Net/assets/51948046/11d03c6c-1dcf-4133-abfe-ee773ab8e42e" width="100" heigh="100" ></td>
+    <td valign="top" style="border: none;"><img src="https://github.com/sunyoungIT/UDCA-Net/assets/51948046/e8d4703c-1c6f-429a-a74a-af3a259451bb" width="100" heigh="100"></td>
+    <td valign="top" style="border: none;"><img src="https://github.com/sunyoungIT/UDCA-Net/assets/51948046/56a6b16e-c3d5-407f-9c84-e9a78c1fa56f" width="100" heigh="100"></td>
+  </tr>
+</table>
+
+
+
+## :rocket: Detailed Results and Demonstrations
+This section provides detailed results and demonstrations of our model. It includes images from each algorithm as well as the corresponding video generated by combining these images. Through these results and demonstrations, a more comprehensive understanding of the performance and effectiveness of our model can be gained.
+
+<details open> 
+<summary><strong>:point_right:  Comparative denoising results</strong> (click to expand) </summary>
+
+  
 ![1](https://github.com/sunyoungIT/FluoroRecNet/assets/51948046/9c213494-c0e1-4a1c-aee0-57c32a8ccb51)
 ![2](https://github.com/sunyoungIT/FluoroRecNet/assets/51948046/9b16e06d-5070-41e0-9275-53f5caf97bfb)
 ![3](https://github.com/sunyoungIT/FluoroRecNet/assets/51948046/7b420125-80b4-4b4f-8df9-663abb116653)
 ![4](https://github.com/sunyoungIT/FluoroRecNet/assets/51948046/e56ecbfe-6821-4db2-8fb1-1d4cb32d4793)
+</details>
+
+## Updates
+- **First release:** Coming soon!
+- :sunglasses: This repository is an official implementation of the paper `Unsupervised Training of a Dynamic Context-Aware Deep Denoising Framework for Low-Dose Fluoroscopic Imaging.` It will be uploaded once the paper is accepted :sunglasses:
+
+## Preparation
+### Environment installation:
+You can try Anaconda to setup the environment.
+#### Anaconda
+```shell
+conda create -n UDCA-Net python=3.8.8
+conda activate UDCA-Net
+pip install torch==1.12.1+cu116 torchvision==0.13.1+cu116 torchaudio==0.12.1 --extra-index-url https://download.pytorch.org/whl/cu116
+pip install -r requirements.txt
+```
+
+## Training and Testing
+### Testing
+
+```shell
+python test.py --model [MODEL_NAME] 
+```
+
+Examples:
+`python test.py --model UDCANet `
+
+### Training
+Training command:
+
+```shell
+python train.py --model UDCANet --patch_size [PATCH_SIZE] --n_frames [N_FRAMES] 
+```
+
+Examples:
+`python train.py --model UDCANet --patch_size 120 --n_frames 5`
+
 
 ### Contact
 if you have any questions, please file an issue or contact the author:
-'''
+```
 Sun-Young Jeon: sunyounge_@ewhain.net
-'''
+```
