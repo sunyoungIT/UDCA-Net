@@ -63,11 +63,11 @@ This section provides detailed results and demonstrations of our model. It inclu
 </details>
 
 ## Updates
-- **First release:** Coming soon!
-- :sunglasses: This repository is an official implementation of the paper `Unsupervised Training of a Dynamic Context-Aware Deep Denoising Framework for Low-Dose Fluoroscopic Imaging.` It will be uploaded once the paper is accepted :sunglasses:
--- update:  *“Unsupervised Training of a Dynamic Context-Aware Deep Denoising Framework for Low-Dose Fluoroscopic Imaging.”*  
-  The code and documentation are currently being organized and will be uploaded once they are ready.  
-  Thank you for your patience and interest!
+  - **First release:** Coming soon!  
+- 😎 This repository is the official implementation of  
+  *“Unsupervised Training of a Dynamic Context-Aware Deep Denoising Framework for Low-Dose Fluoroscopic Imaging.”*  
+- The code and documentation are currently being organized and will be uploaded **as soon as they are ready.**  
+- Thank you for your patience and interest!
 
 ## Preparation
 ### Environment installation:
