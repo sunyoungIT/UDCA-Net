@@ -18,11 +18,10 @@ from models.common.unet import create_unet
 from models.common.LDL_loss2 import get_refined_artifact_map
 from models.common.LDL_loss5 import get_refined_artifact_map as get_refined_artifact_map5
 from models.common.recursive_filter import RecursiveFilter
-from models.mfattunet3_wrap import create_model as create_mfunet3
-from models.mfattunet3_2_rcnn import create_model as create_mfrcnnunet3
+
 from models.convs.wavelet import SWTForward, serialize_swt, SWTInverse, unserialize_swt
 from models.mfattunet3_wrap_noise import create_model as create_mfattunet3_wrap_noise
-from models.mfattunet3_2_noise_rcnn import create_model as create_mfattunet3_noise
+
 url = {
     # 'n5m32g32n5': 'http://gofile.me/4u1bp/95jMJyKDt',
     'n3m32g32n5': 'https://www.dropbox.com/s/9gxcjy706ho4qqt/epoch_best_n0003_loss0.00032845_psnr34.8401.pth?dl=1'
@@ -30,16 +29,10 @@ url = {
 def create_qenet(opt):
     if opt.qenet == 'mfselfattn':
 
-        #qenet = create_mfunet3(opt)  # -> #1 짝꿍 # 1853, 1856
-        #qenet = create_mfattunet3_wrap_noise(opt) # -> 3 짝꿍
-        qenet = create_mfattunet3_noise(opt)
+       
+        qenet = create_mfattunet3_wrap_noise(opt)
 
-        # for moving700 -> fist step : mfattunet3_wrap
-        #pretrained_path = '../../data/denoising/checkpoints-flouroscopy_LDL/moving700-20230116-2152-mfattunet3_wrap-n_inputs5-ms_channels32-growth_rate32-n_denselayers5/pth/epoch_30_n0030_loss0.00030289_psnr35.2860.pth'
-        #pretrained_path = '../../data/denoising/checkpoints-flouroscopy_LDL/moving700-20230131-1623-mfattunet3_wrap_noise-n_inputs5-ms_channels32-growth_rate32-n_denselayers5/pth/epoch_best_n0048_loss0.00083241_psnr30.8716.pth' # -> #3짝꿍
-        
-        #pretrained_path = '../../data/denoising/checkpoints-flouroscopy_LDL/moving700-20230324-0316-mfattunet3_2_noise_rcnn-n_inputs5-ms_channels32-growth_rate32-n_denselayers5/pth/epoch_150_n0150_loss0.00036960_psnr34.5918.pth'
-        # 원래 moving00 으로 first step 에서 spynet 뺀거 
+
         pretrained_path = '../../data/denoising/checkpoints-flouroscopy_LDL/moving700-20230402-2019-mfattunet3_2_noise_rcnn-n_inputs5-ms_channels32-growth_rate32-n_denselayers5/pth/epoch_170_n0170_loss0.00040239_psnr34.2359.pth'
         # for genoray 
         #pretrained_path = '../../data/denoising/checkpoints-flouroscopy_LDL/genoray-20230116-2313-mfattunet3_wrap-n_inputs5-ms_channels32-growth_rate32-n_denselayers5/pth/epoch_best_n0100_loss0.00005316_psnr43.1262.pth'
@@ -47,8 +40,8 @@ def create_qenet(opt):
         raise ValueError('specify qenet')
         
     checkpoint = torch.load(pretrained_path)
-    qenet.load_state_dict(checkpoint['mfattunet3']) # -> #1 짝꿍
-    #qenet.load_state_dict(checkpoint['mfattunet'])# -> #2 짝꿍
+    qenet.load_state_dict(checkpoint['mfattunet3']) 
+    
 
     return qenet
 
@@ -219,9 +212,9 @@ class R2Net5(BaseModel):
         self.x = input['x'].to(self.device)
         self.ix = torch.cat((self.x[:,:self.n_inputs//2], self.x[:,self.n_inputs//2+1:]), dim=1)
         #print("self.ix -> recursive input shaep :", self.ix.shape)
-        #self.tx = self.ix.unsqueeze(1) # 최종 사용한다고 했을때 이것만 있음 되었음. # 1856 , 1853
 
-        # for mfattunet3_noise_wrap버전        
+
+
         self.tx = self.x.clone()
         self.tx[:,self.n_inputs//2] = self.tx[:,self.n_inputs//2]+ self.tx[:,self.n_inputs//2].normal_(std=0.1)
         #self.tx = self.tx.unsqueeze(1)
@@ -260,7 +253,7 @@ class R2Net5(BaseModel):
         self.qe_out = torch.mul(0.5*self.out, self.recur_out)
         #print("qe_out.shape", self.qe_out.shape)
         self.qe_out2 = torch.mul(self.out, self.recur_out)
-        #recur_out 에 swt 적용 
+
         self.recur_out_swt = self.swt(self.recur_out)
         self.recur_out_swt = serialize_swt(self.recur_out_swt)
         self.high_recur_out_swt = self.recur_out_swt[:,self.nc:]
@@ -269,38 +262,14 @@ class R2Net5(BaseModel):
         self.high_out_swt = self.out_swt[:,self.nc:]
         self.pixel_weight = get_refined_artifact_map(self.qe_out, self.ct, self.pre_out, 7, self.sig)
         
-        # test_dir = r'D:/data'
-        # import os
-        # a=torch.mul(self.pixel_weight, self.high_out_swt)
-        # b=torch.mul(self.pixel_weight, self.high_recur_out_swt)
-        # from skimage.io import imsave
-        # recursive_dir = os.path.join(test_dir, 'here+++++')
-        # out = a[:,0:1,:,:].detach().to('cpu').numpy().transpose(0,2,3,1)#.squeeze()
-        # recursive_path = os.path.join(recursive_dir + 'aa_qe_out.tiff')
-        # out2 = b[:,0:1,:,:].detach().to('cpu').numpy().transpose(0,2,3,1)#.squeeze()
-        # recursive_path2 = os.path.join(recursive_dir + 'aa_qeout_2.tiff')
-        # out3 = self.pre_out.detach().to('cpu').numpy().transpose(0,2,3,1)#.squeeze()
-        # recursive_path3 = os.path.join(recursive_dir + 'aa_pre_out.tiff')
-        # imsave(recursive_path, out)
-        # imsave(recursive_path2, out2)
-        # imsave(recursive_path3, out3)
-        # print(t.shape)
-        
-        #self.pixel_weight = get_refined_artifact_map(self.qe_out, self.out, self.recur_out, 7, self.sig)
-        
-        
 
-        # print("self.pre_out .shape :", self.pre_out.shape)
-        
-      
     def backward(self):
         #self.artif_loss = self.content_loss_criterion(torch.mul(self.pixel_weight, self.out), torch.mul(self.pixel_weight, self.recur_out))
         if self.perceptual_loss:
 
             self.content_loss, self.style_loss = self.perceptual_loss_criterion(self.ct, self.out)
-            #print(self.content_loss)
-            #print("self.style loss : ", self.style_loss)
-            self.loss = self.content_loss + self.style_loss #+ 1000*self.artif_loss
+          #print("self.style loss : ", self.style_loss)
+            self.loss = self.content_loss + self.style_loss
         else:
             self.loss_gq = self.criterionL1(self.out, self.recur_out)
             self.loss_pre = self.criterionL1(self.out, self.pre_out)
@@ -437,8 +406,7 @@ class Up(nn.Module):
         # if you have padding issues, see
         # https://github.com/HaiyongJiang/U-Net-Pytorch-Unstructured-Buggy/commit/0e854509c2cea854e247a9c615f175f76fbb2e3a
         # https://github.com/xiaopeng-liao/Pytorch-UNet/commit/8ebac70e633bac59fc22bb5195e513d5832fb3bd
-        # print('x1.pad.shape:', x1.shape)
-        # print('x2.shape:', x2.shape)
+        
         x = torch.cat([x2, x1], dim=1)
         return self.conv(x)
 
@@ -1205,13 +1173,12 @@ class FSAUNetModel(nn.Module):
         
         x = torch.cat([xflow, x_backward, x_forward], 2)
         x = x.transpose(1, 2)
-        # print('++++')
-        #print("x.shape :", x.shape)
+
         x1 = self.conv_first(x)
         
         out = x1 + res
         out = self.add_mean(out)
-        #print("out.shape ", out.shape)
+
         bs, c, d, h, w = out.shape
         out = out.view(bs, (d)*c, h, w)
         
